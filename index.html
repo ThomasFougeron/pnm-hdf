@@ -1,0 +1,277 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Classement, résultats et course à la montée de la Pré-Nationale Masculine Hauts-de-France 2026-2027."><style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>PNM Hauts-de-France</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: scoreboard band on top, poule switch, one wide standings table (this season + last season), then the round-by-round results. */
+:root{
+  --bg:#eef2f5; --surface:#ffffff; --ink:#15212c; --muted:#5b6977; --line:#d6dee5; --band:#1b3149; --band-ink:#f3f6f9;
+  --accent:#d9591a; --accent-soft:#fbe7dc; --up:#1d8549; --up-soft:#dcf1e4; --down:#bf3a2e; --down-soft:#f7e0dd;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --surface:#16202a; --ink:#e5ecf2; --muted:#94a4b3; --line:#283645; --band:#0b1c2e; --band-ink:#e5ecf2;
+  --accent:#f0813f; --accent-soft:#3a2416; --up:#52c483; --up-soft:#15301f; --down:#ee6e62; --down-soft:#3a1c19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --surface:#16202a; --ink:#e5ecf2; --muted:#94a4b3; --line:#283645; --band:#0b1c2e; --band-ink:#e5ecf2;
+  --accent:#f0813f; --accent-soft:#3a2416; --up:#52c483; --up-soft:#15301f; --down:#ee6e62; --down-soft:#3a1c19; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+header.band{background:var(--band);color:var(--band-ink)}
+header.band .wrap{padding-block:22px 18px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1;margin:.2em 0 0;letter-spacing:.01em;text-wrap:balance}
+.board{display:flex;gap:22px;font-family:var(--f-display)}
+.board div{display:grid;gap:2px}
+.board b{font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
+.board span{font-family:var(--f-body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;padding-block:18px 10px}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{font:600 15px var(--f-body);border:0;background:transparent;color:var(--ink);padding:7px 15px;border-radius:999px;cursor:pointer;min-width:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:focus-visible,.days button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stamp{color:var(--muted);font-size:13px}
+h2{font-family:var(--f-display);font-weight:700;font-size:26px;margin:22px 0 8px;letter-spacing:.01em}
+h2 small{font-family:var(--f-body);font-weight:500;font-size:14px;color:var(--muted);margin-left:8px;letter-spacing:0}
+.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:920px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+thead th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+thead tr.groups th{font-family:var(--f-display);font-size:15px;letter-spacing:.04em;color:var(--ink);border-bottom:0;padding-bottom:0}
+th.num,td.num{text-align:right}
+.sep{border-left:2px solid var(--line)}
+td.rank{font-family:var(--f-display);font-weight:700;font-size:20px;width:34px;text-align:center}
+td.team{font-weight:600;position:sticky;left:0;background:var(--surface);max-width:250px;overflow:hidden;text-overflow:ellipsis}
+td.pts{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent)}
+.pos{color:var(--up)} .neg{color:var(--down)}
+.form{display:inline-flex;gap:3px}
+.form i{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:4px;font:700 11px var(--f-body);font-style:normal}
+.form i.v{background:var(--up-soft);color:var(--up)} .form i.d{background:var(--down-soft);color:var(--down)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.chip.promu{background:var(--up-soft);color:var(--up)} .chip.descendu{background:var(--down-soft);color:var(--down)}
+.div{font-weight:600} .div em{font-style:normal;color:var(--muted);font-weight:500}
+.note{color:var(--muted);font-size:12.5px;white-space:normal;min-width:180px;max-width:260px}
+.legend{color:var(--muted);font-size:12.5px;margin:8px 2px 0}
+.days{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.days button{font:600 14px var(--f-display);letter-spacing:.03em;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:5px 10px;cursor:pointer;min-width:42px}
+.days button.played{border-color:var(--muted)}
+.days button[aria-pressed="true"]{background:var(--band);color:var(--band-ink);border-color:var(--band)}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.game{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:grid;gap:6px;min-width:0}
+.game .when{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.side{display:flex;justify-content:space-between;align-items:center;gap:10px;min-width:0}
+.side span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side b{font-family:var(--f-display);font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.side.win span{font-weight:600} .side.lose{color:var(--muted)}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:28px 20px;color:var(--muted);text-align:center}
+footer{margin-top:28px;color:var(--muted);font-size:12.5px;display:grid;gap:4px}
+footer a{color:inherit}
+.race{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;margin-top:6px;display:grid;gap:10px}
+.race-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.race-head h2{margin:0}
+.race-sub{margin:0;color:var(--muted);font-size:13.5px;max-width:70ch}
+.race-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.race-list li{display:grid;grid-template-columns:30px minmax(0,1fr) 74px;gap:4px 12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.race-list li:first-child{border-top:0}
+.race-list .rk{font-family:var(--f-display);font-weight:700;font-size:20px;text-align:center;color:var(--muted)}
+.race-list li.zone .rk{color:var(--accent)}
+.race-list .who{min-width:0;display:grid;gap:5px}
+.race-list .nm{font-weight:600;display:flex;gap:8px;align-items:center;min-width:0}
+.race-list .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.race-list .pl{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;flex:none}
+.bar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.race-list li:not(.zone) .bar i{background:var(--muted);opacity:.55}
+.race-list .det{font-size:12.5px;color:var(--muted)}
+.race-list .pm{text-align:right;font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
+.race-list .pm small{display:block;font-family:var(--f-body);font-weight:600;font-size:11.5px;margin-top:3px}
+.race-foot{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.linkbtn{font:600 13.5px var(--f-body);background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0}
+.linkbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.how{font-size:13px;color:var(--muted)}
+details.how summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details.how p{margin:6px 0 0;max-width:75ch}
+td.prob{font-family:var(--f-display);font-weight:700;font-size:17px}
+@media (prefers-reduced-motion:no-preference){.seg button,.days button{transition:background .15s,color .15s}}
+.plm{display:none}
+@media (max-width:520px){.board{gap:16px}.board b{font-size:24px}
+  .race{padding:14px 12px}.race-list li{grid-template-columns:22px minmax(0,1fr) 60px;gap:4px 8px}
+  .race-list .pl{display:none}.plm{display:inline}.race-list .pm{font-size:21px}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Ligue Hauts-de-France · Saison 2026-2027</div>
+      <h1>Pré-Nationale Masculine</h1>
+    </div>
+    <div class="board" aria-live="polite">
+      <div><b id="kJ">–</b><span>Journée</span></div>
+      <div><b id="kM">–</b><span>Matchs joués</span></div>
+      <div><b id="kN">–</b><span>Prochaine</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Choisir la poule" id="seg">
+      <button type="button" data-p="A" aria-pressed="false">A</button>
+      <button type="button" data-p="B" aria-pressed="false">B</button>
+      <button type="button" data-p="C" aria-pressed="false">C</button>
+      <button type="button" data-p="D" aria-pressed="false">D</button>
+      <button type="button" data-p="*" aria-pressed="false">Toutes</button>
+    </div>
+    <div class="stamp" id="stamp">Chargement de la base…</div>
+  </div>
+  <section class="race" id="race" aria-labelledby="raceTitle">
+    <div class="race-head"><h2 id="raceTitle">Course à la montée</h2><span class="stamp" id="raceStamp"></span></div>
+    <p class="race-sub">Probabilité de monter en Nationale 3, estimée en simulant 20 000 fins de saison à partir des résultats et de la saison 2025-26.</p>
+    <ol class="race-list" id="raceList"><li><span></span><span class="det">Le calcul apparaîtra ici après le chargement de la base.</span><span></span></li></ol>
+    <div class="race-foot">
+      <button type="button" class="linkbtn" id="raceMore" aria-expanded="false">Voir les 24 équipes</button>
+    </div>
+  </section>
+  <div id="content">
+    <div class="empty">Chargement du classement et de l'historique 2025-26…</div>
+  </div>
+  <footer>
+    <div>Classement : 2 pts la victoire, 1 pt la défaite (barème FFBB). Forme = 5 derniers matchs, le plus récent à droite.</div>
+    <div>2025-26 : classement de phase régulière (source Score'n'co). Saison en cours : <a id="src" href="https://competitions.ffbb.com/ligues/hdf/competitions/pnm/classement?phase=200000002897554&amp;poule=200000003055243" target="_blank" rel="noopener">FFBB</a>, mise à jour chaque dimanche matin s'il y a eu un match la veille.</div>
+  </footer>
+</main>
+<script>window.__PNM_DATA={"poules":{"A":{"classement":[{"d":0,"id":"200000005339757","j":3,"pe":206,"pen":0,"pm":267,"pos":1,"pts":6,"v":3},{"d":0,"id":"200000005339756","j":3,"pe":201,"pen":0,"pm":234,"pos":2,"pts":6,"v":3},{"d":1,"id":"200000005339755","j":3,"pe":217,"pen":0,"pm":215,"pos":3,"pts":5,"v":2},{"d":2,"id":"200000005339758","j":3,"pe":236,"pen":0,"pm":236,"pos":4,"pts":4,"v":1},{"d":3,"id":"200000005339760","j":3,"pe":266,"pen":0,"pm":220,"pos":5,"pts":3,"v":0},{"d":3,"id":"200000005339759","j":3,"pe":225,"pen":0,"pm":179,"pos":6,"pts":3,"v":0}],"maj_le":"2026-10-12T17:30:00+02:00","matchs":[{"date":"2026-09-19T20:30:00","eq1":"200000005339756","eq2":"200000005339755","id":"200000014571369","j":1,"joue":true,"s1":76,"s2":58},{"date":"2026-09-19T20:30:00","eq1":"200000005339757","eq2":"200000005339760","id":"200000014571370","j":1,"joue":true,"s1":96,"s2":73},{"date":"2026-09-19T20:30:00","eq1":"200000005339759","eq2":"200000005339758","id":"200000014571371","j":1,"joue":true,"s1":63,"s2":82},{"date":"2026-09-26T17:15:00","eq1":"200000005339755","eq2":"200000005339759","id":"200000014571381","j":2,"joue":true,"s1":71,"s2":66},{"date":"2026-09-26T20:30:00","eq1":"200000005339758","eq2":"200000005339757","id":"200000014571382","j":2,"joue":true,"s1":83,"s2":99},{"date":"2026-09-26T20:30:00","eq1":"200000005339756","eq2":"200000005339760","id":"200000014571383","j":2,"joue":true,"s1":84,"s2":72},{"date":"2026-10-10T17:00:00","eq1":"200000005339759","eq2":"200000005339757","id":"200000014571395","j":3,"joue":true,"s1":50,"s2":72},{"date":"2026-10-10T20:30:00","eq1":"200000005339755","eq2":"200000005339760","id":"200000014571393","j":3,"joue":true,"s1":86,"s2":75},{"date":"2026-10-10T20:30:00","eq1":"200000005339756","eq2":"200000005339758","id":"200000014571394","j":3,"joue":true,"s1":74,"s2":71},{"date":"2026-10-17T20:30:00","eq1":"200000005339757","eq2":"200000005339755","id":"200000014571405","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339759","eq2":"200000005339756","id":"200000014571406","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-18T16:00:00","eq1":"200000005339758","eq2":"200000005339760","id":"200000014571407","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T17:15:00","eq1":"200000005339755","eq2":"200000005339758","id":"200000014571417","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339760","eq2":"200000005339759","id":"200000014571418","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339757","eq2":"200000005339756","id":"200000014571419","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339755","eq2":"200000005339756","id":"200000014571429","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339760","eq2":"200000005339757","id":"200000014571430","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-15T16:00:00","eq1":"200000005339758","eq2":"200000005339759","id":"200000014571431","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339759","eq2":"200000005339755","id":"200000014571441","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339757","eq2":"200000005339758","id":"200000014571442","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339760","eq2":"200000005339756","id":"200000014571443","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339760","eq2":"200000005339755","id":"200000014571453","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339757","eq2":"200000005339759","id":"200000014571455","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-29T16:00:00","eq1":"200000005339758","eq2":"200000005339756","id":"200000014571454","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339755","eq2":"200000005339757","id":"200000014571465","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339756","eq2":"200000005339759","id":"200000014571466","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339760","eq2":"200000005339758","id":"200000014571467","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T17:00:00","eq1":"200000005339759","eq2":"200000005339760","id":"200000014571478","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339758","eq2":"200000005339755","id":"200000014571477","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339756","eq2":"200000005339757","id":"200000014571479","j":10,"joue":false,"s1":null,"s2":null}],"nom":"Poule A"},"B":{"classement":[{"d":0,"id":"200000005339762","j":3,"pe":255,"pen":0,"pm":270,"pos":1,"pts":6,"v":3},{"d":1,"id":"200000005339765","j":3,"pe":226,"pen":0,"pm":240,"pos":2,"pts":5,"v":2},{"d":1,"id":"200000005339761","j":3,"pe":238,"pen":0,"pm":251,"pos":3,"pts":5,"v":2},{"d":2,"id":"200000005339763","j":3,"pe":219,"pen":0,"pm":217,"pos":4,"pts":4,"v":1},{"d":2,"id":"200000005339766","j":3,"pe":270,"pen":0,"pm":267,"pos":5,"pts":4,"v":1},{"d":3,"id":"200000005339764","j":3,"pe":243,"pen":0,"pm":206,"pos":6,"pts":3,"v":0}],"maj_le":"2026-10-12T17:30:00+02:00","matchs":[{"date":"2026-09-19T20:30:00","eq1":"200000005339762","eq2":"200000005339766","id":"200000014571372","j":1,"joue":true,"s1":99,"s2":98},{"date":"2026-09-19T20:30:00","eq1":"200000005339764","eq2":"200000005339761","id":"200000014571373","j":1,"joue":true,"s1":67,"s2":77},{"date":"2026-09-19T20:30:00","eq1":"200000005339765","eq2":"200000005339763","id":"200000014571374","j":1,"joue":true,"s1":71,"s2":66},{"date":"2026-09-26T20:30:00","eq1":"200000005339766","eq2":"200000005339765","id":"200000014571384","j":2,"joue":true,"s1":83,"s2":80},{"date":"2026-09-26T20:30:00","eq1":"200000005339763","eq2":"200000005339764","id":"200000014571385","j":2,"joue":true,"s1":77,"s2":62},{"date":"2026-09-26T20:30:00","eq1":"200000005339761","eq2":"200000005339762","id":"200000014571386","j":2,"joue":true,"s1":83,"s2":85},{"date":"2026-10-10T20:30:00","eq1":"200000005339766","eq2":"200000005339761","id":"200000014571396","j":3,"joue":true,"s1":86,"s2":91},{"date":"2026-10-10T20:30:00","eq1":"200000005339762","eq2":"200000005339763","id":"200000014571397","j":3,"joue":true,"s1":86,"s2":74},{"date":"2026-10-10T20:30:00","eq1":"200000005339765","eq2":"200000005339764","id":"200000014571398","j":3,"joue":true,"s1":89,"s2":77},{"date":"2026-10-17T20:30:00","eq1":"200000005339764","eq2":"200000005339766","id":"200000014571408","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339765","eq2":"200000005339762","id":"200000014571409","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339763","eq2":"200000005339761","id":"200000014571410","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339766","eq2":"200000005339763","id":"200000014571420","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339761","eq2":"200000005339765","id":"200000014571421","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339764","eq2":"200000005339762","id":"200000014571422","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339766","eq2":"200000005339762","id":"200000014571432","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339761","eq2":"200000005339764","id":"200000014571433","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339763","eq2":"200000005339765","id":"200000014571434","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339765","eq2":"200000005339766","id":"200000014571444","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339764","eq2":"200000005339763","id":"200000014571445","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339762","eq2":"200000005339761","id":"200000014571446","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339761","eq2":"200000005339766","id":"200000014571456","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339763","eq2":"200000005339762","id":"200000014571457","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339764","eq2":"200000005339765","id":"200000014571458","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339766","eq2":"200000005339764","id":"200000014571468","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339762","eq2":"200000005339765","id":"200000014571469","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339761","eq2":"200000005339763","id":"200000014571470","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339763","eq2":"200000005339766","id":"200000014571480","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339765","eq2":"200000005339761","id":"200000014571481","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339762","eq2":"200000005339764","id":"200000014571482","j":10,"joue":false,"s1":null,"s2":null}],"nom":"Poule B"},"C":{"classement":[{"d":0,"id":"200000005339771","j":3,"pe":228,"pen":0,"pm":274,"pos":1,"pts":6,"v":3},{"d":0,"id":"200000005339770","j":3,"pe":219,"pen":0,"pm":258,"pos":2,"pts":6,"v":3},{"d":1,"id":"200000005339769","j":3,"pe":214,"pen":0,"pm":237,"pos":3,"pts":5,"v":2},{"d":2,"id":"200000005339768","j":3,"pe":229,"pen":0,"pm":224,"pos":4,"pts":4,"v":1},{"d":3,"id":"200000005339767","j":3,"pe":259,"pen":0,"pm":233,"pos":5,"pts":3,"v":0},{"d":3,"id":"200000005339772","j":3,"pe":287,"pen":0,"pm":210,"pos":6,"pts":3,"v":0}],"maj_le":"2026-10-12T17:30:00+02:00","matchs":[{"date":"2026-09-19T20:30:00","eq1":"200000005339770","eq2":"200000005339769","id":"200000014571375","j":1,"joue":true,"s1":86,"s2":65},{"date":"2026-09-19T20:30:00","eq1":"200000005339771","eq2":"200000005339772","id":"200000014571376","j":1,"joue":true,"s1":115,"s2":79},{"date":"2026-09-19T20:30:00","eq1":"200000005339768","eq2":"200000005339767","id":"200000014571377","j":1,"joue":true,"s1":85,"s2":72},{"date":"2026-09-26T20:30:00","eq1":"200000005339769","eq2":"200000005339768","id":"200000014571387","j":2,"joue":true,"s1":78,"s2":67},{"date":"2026-09-26T20:30:00","eq1":"200000005339767","eq2":"200000005339771","id":"200000014571388","j":2,"joue":true,"s1":77,"s2":80},{"date":"2026-09-26T20:30:00","eq1":"200000005339772","eq2":"200000005339770","id":"200000014571389","j":2,"joue":true,"s1":70,"s2":78},{"date":"2026-10-10T20:30:00","eq1":"200000005339769","eq2":"200000005339772","id":"200000014571399","j":3,"joue":true,"s1":94,"s2":61},{"date":"2026-10-10T20:30:00","eq1":"200000005339770","eq2":"200000005339767","id":"200000014571400","j":3,"joue":true,"s1":94,"s2":84},{"date":"2026-10-10T20:30:00","eq1":"200000005339768","eq2":"200000005339771","id":"200000014571401","j":3,"joue":true,"s1":72,"s2":79},{"date":"2026-10-17T18:00:00","eq1":"200000005339767","eq2":"200000005339772","id":"200000014571413","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339771","eq2":"200000005339769","id":"200000014571411","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339768","eq2":"200000005339770","id":"200000014571412","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339769","eq2":"200000005339767","id":"200000014571423","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339772","eq2":"200000005339768","id":"200000014571424","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339771","eq2":"200000005339770","id":"200000014571425","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339769","eq2":"200000005339770","id":"200000014571435","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339772","eq2":"200000005339771","id":"200000014571436","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339767","eq2":"200000005339768","id":"200000014571437","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339768","eq2":"200000005339769","id":"200000014571447","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339771","eq2":"200000005339767","id":"200000014571448","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339770","eq2":"200000005339772","id":"200000014571449","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339772","eq2":"200000005339769","id":"200000014571459","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339767","eq2":"200000005339770","id":"200000014571460","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339771","eq2":"200000005339768","id":"200000014571461","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339769","eq2":"200000005339771","id":"200000014571471","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339770","eq2":"200000005339768","id":"200000014571472","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339772","eq2":"200000005339767","id":"200000014571473","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339767","eq2":"200000005339769","id":"200000014571483","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339768","eq2":"200000005339772","id":"200000014571484","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339770","eq2":"200000005339771","id":"200000014571485","j":10,"joue":false,"s1":null,"s2":null}],"nom":"Poule C"},"D":{"classement":[{"d":0,"id":"200000005339776","j":3,"pe":184,"pen":0,"pm":254,"pos":1,"pts":6,"v":3},{"d":0,"id":"200000005339777","j":3,"pe":233,"pen":0,"pm":275,"pos":2,"pts":6,"v":3},{"d":2,"id":"200000005339775","j":3,"pe":234,"pen":0,"pm":226,"pos":3,"pts":4,"v":1},{"d":2,"id":"200000005339774","j":3,"pe":218,"pen":0,"pm":198,"pos":4,"pts":4,"v":1},{"d":2,"id":"200000005339773","j":3,"pe":226,"pen":0,"pm":193,"pos":5,"pts":4,"v":1},{"d":3,"id":"200000005339778","j":3,"pe":263,"pen":0,"pm":212,"pos":6,"pts":3,"v":0}],"maj_le":"2026-10-12T17:30:00+02:00","matchs":[{"date":"2026-09-19T20:30:00","eq1":"200000005339774","eq2":"200000005339776","id":"200000014571378","j":1,"joue":true,"s1":65,"s2":71},{"date":"2026-09-19T20:30:00","eq1":"200000005339777","eq2":"200000005339773","id":"200000014571379","j":1,"joue":true,"s1":91,"s2":70},{"date":"2026-09-19T20:30:00","eq1":"200000005339778","eq2":"200000005339775","id":"200000014571380","j":1,"joue":true,"s1":64,"s2":68},{"date":"2026-09-26T20:30:00","eq1":"200000005339776","eq2":"200000005339778","id":"200000014571390","j":2,"joue":true,"s1":103,"s2":71},{"date":"2026-09-26T20:30:00","eq1":"200000005339775","eq2":"200000005339777","id":"200000014571391","j":2,"joue":true,"s1":86,"s2":92},{"date":"2026-09-26T20:30:00","eq1":"200000005339773","eq2":"200000005339774","id":"200000014571392","j":2,"joue":true,"s1":75,"s2":55},{"date":"2026-10-10T20:30:00","eq1":"200000005339776","eq2":"200000005339773","id":"200000014571402","j":3,"joue":true,"s1":80,"s2":48},{"date":"2026-10-10T20:30:00","eq1":"200000005339774","eq2":"200000005339775","id":"200000014571403","j":3,"joue":true,"s1":78,"s2":72},{"date":"2026-10-10T20:30:00","eq1":"200000005339778","eq2":"200000005339777","id":"200000014571404","j":3,"joue":true,"s1":77,"s2":92},{"date":"2026-10-17T20:30:00","eq1":"200000005339776","eq2":"200000005339777","id":"200000014571414","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339778","eq2":"200000005339774","id":"200000014571415","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-10-17T20:30:00","eq1":"200000005339775","eq2":"200000005339773","id":"200000014571416","j":4,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339776","eq2":"200000005339775","id":"200000014571426","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339773","eq2":"200000005339778","id":"200000014571427","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-07T20:30:00","eq1":"200000005339777","eq2":"200000005339774","id":"200000014571428","j":5,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339776","eq2":"200000005339774","id":"200000014571438","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339773","eq2":"200000005339777","id":"200000014571439","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-14T20:30:00","eq1":"200000005339775","eq2":"200000005339778","id":"200000014571440","j":6,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339778","eq2":"200000005339776","id":"200000014571450","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339777","eq2":"200000005339775","id":"200000014571451","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-21T20:30:00","eq1":"200000005339774","eq2":"200000005339773","id":"200000014571452","j":7,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339773","eq2":"200000005339776","id":"200000014571462","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339775","eq2":"200000005339774","id":"200000014571463","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-11-28T20:30:00","eq1":"200000005339777","eq2":"200000005339778","id":"200000014571464","j":8,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339777","eq2":"200000005339776","id":"200000014571474","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339774","eq2":"200000005339778","id":"200000014571475","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-05T20:30:00","eq1":"200000005339773","eq2":"200000005339775","id":"200000014571476","j":9,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339775","eq2":"200000005339776","id":"200000014571486","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339778","eq2":"200000005339773","id":"200000014571487","j":10,"joue":false,"s1":null,"s2":null},{"date":"2026-12-12T20:30:00","eq1":"200000005339774","eq2":"200000005339777","id":"200000014571488","j":10,"joue":false,"s1":null,"s2":null}],"nom":"Poule D"}},"equipes":{"200000005339767":{"poule":"C","court":"ESC Longueau Amiens 2","nom_ffbb":"ESC LONGUEAU AMIENS MSBB - 2","n1":{"division":"PNM","poule":"B","rang":10,"nb":12,"v":8,"d":14,"ecart":-127,"mouvement":"maintenu","note":""}},"200000005339764":{"poule":"B","court":"Gouvieux Basket Oise","nom_ffbb":"GOUVIEUX BASKET OISE - 1","n1":{"division":"PNM","poule":"A","rang":5,"nb":12,"v":14,"d":8,"ecart":70,"mouvement":"maintenu","note":""}},"200000005339762":{"poule":"B","court":"US Crépy-en-Valois","nom_ffbb":"US CREPY EN VALOIS - 1","n1":{"division":"PNM","poule":"B","rang":3,"nb":12,"v":15,"d":7,"ecart":179,"mouvement":"maintenu","note":""}},"200000005339773":{"poule":"D","court":"Tourcoing JG","nom_ffbb":"TOURCOING J G","n1":{"division":"PNM","poule":"A","rang":8,"nb":12,"v":8,"d":13,"ecart":-104,"mouvement":"maintenu","note":"21 matchs selon la source"}},"200000005339763":{"poule":"B","court":"ASCC Margny","nom_ffbb":"ASCC MARGNY - 1","n1":{"division":"PNM","poule":"A","rang":6,"nb":12,"v":11,"d":11,"ecart":-7,"mouvement":"maintenu","note":""}},"200000005339772":{"poule":"C","court":"Cœur de Flandre BB","nom_ffbb":"COEUR DE FLANDRE BASKET BALL","n1":{"division":"PNM","poule":"A","rang":10,"nb":12,"v":7,"d":15,"ecart":-150,"mouvement":"maintenu","note":""}},"200000005339766":{"poule":"B","court":"SQBB-JSC 2 (St-Quentin)","nom_ffbb":"SQBB - JSC - 2","n1":{"division":"RM2","poule":"C","rang":1,"nb":12,"v":22,"d":0,"ecart":572,"mouvement":"promu","note":"Invaincu en RM2"}},"200000005339769":{"poule":"C","court":"A. Paul Bert Outreau","nom_ffbb":"A PAUL BERT OUTREAU - 1","n1":{"division":"RM2","poule":"B","rang":2,"nb":12,"v":16,"d":4,"ecart":277,"mouvement":"promu","note":""}},"200000005339776":{"poule":"D","court":"ESSM Le Portel","nom_ffbb":"ESSM LE PORTEL - 1","n1":{"division":"RM2","poule":"B","rang":1,"nb":12,"v":17,"d":3,"ecart":258,"mouvement":"promu","note":"Équipe 2 du club en 2025-26"}},"200000005339778":{"poule":"D","court":"AS Vieux-Lille","nom_ffbb":"ASSOCIATION SPORTIVE DU VIEUX-LILLE BASKET - 1","n1":{"division":"PNM","poule":"A","rang":7,"nb":12,"v":9,"d":13,"ecart":34,"mouvement":"maintenu","note":""}},"200000005339757":{"poule":"A","court":"Neuville-en-Ferrain PP 1","nom_ffbb":"NEUVILLE EN FERRAIN PP - 1","n1":{"division":"PNM","poule":"A","rang":3,"nb":12,"v":16,"d":6,"ecart":196,"mouvement":"maintenu","note":"Qualifié pour la phase 2e-3e, pas monté"}},"200000005339758":{"poule":"A","court":"Calais Basket 2","nom_ffbb":"CALAIS BASKET - 2","n1":{"division":"PNM","poule":"B","rang":8,"nb":12,"v":9,"d":13,"ecart":-69,"mouvement":"maintenu","note":"Nommé « SENIORS PNM » sur Score'n'co"}},"200000005339755":{"poule":"A","court":"Lille Métropole BC 2","nom_ffbb":"LILLE METROPOLE BASKET CLUBS - 2","n1":{"division":"RM2","poule":"A","rang":1,"nb":12,"v":17,"d":5,"ecart":302,"mouvement":"promu","note":"39 pts, à égalité avec Beuvrages 2"}},"200000005339756":{"poule":"A","court":"Comines (Cominoise LL)","nom_ffbb":"COMINOISE L L","n1":{"division":"NM3","poule":"F","rang":11,"nb":14,"v":9,"d":17,"ecart":-134,"mouvement":"descendu","note":""}},"200000005339760":{"poule":"A","court":"Cappelle BC","nom_ffbb":"CAPPELLE BC","n1":{"division":"PNM","poule":"B","rang":9,"nb":12,"v":8,"d":14,"ecart":-101,"mouvement":"maintenu","note":""}},"200000005339765":{"poule":"B","court":"Gricourt Basket","nom_ffbb":"GRICOURT BASKET - 1","n1":{"division":"PNM","poule":"B","rang":6,"nb":12,"v":10,"d":12,"ecart":-82,"mouvement":"maintenu","note":""}},"200000005339774":{"poule":"D","court":"Gravelines Grand-Fort BCM 3","nom_ffbb":"GRAVELINES GRAND FORT BCM - 3","n1":{"division":"NM3","poule":"F","rang":13,"nb":14,"v":6,"d":20,"ecart":-297,"mouvement":"descendu","note":"Nommé « BCM Gravelines Dunkerque 2 » sur Score'n'co"}},"200000005339777":{"poule":"D","court":"AOSM (St-Martin-lez-Tatinghem)","nom_ffbb":"ASSOCIATION OLYMPIQUE DE SAINT-MARTIN-LEZ-TATINGHEM BASKET-BALL (A.O.S.M. BASKET) - 1","n1":{"division":"PNM","poule":"B","rang":4,"nb":12,"v":14,"d":8,"ecart":141,"mouvement":"maintenu","note":""}},"200000005339775":{"poule":"D","court":"Ostrohove BC","nom_ffbb":"OSTROHOVE BASKET CLUB - 1","n1":{"division":"PNM","poule":"B","rang":7,"nb":12,"v":9,"d":13,"ecart":-128,"mouvement":"maintenu","note":""}},"200000005339761":{"poule":"B","court":"BC St Nicolas Arras","nom_ffbb":"BC ST NICOLAS ARRAS","n1":{"division":"PNM","poule":"A","rang":9,"nb":12,"v":8,"d":13,"ecart":-55,"mouvement":"maintenu","note":"21 matchs selon la source"}},"200000005339770":{"poule":"C","court":"BC St-Martin-lès-Boulogne","nom_ffbb":"BC ST MARTIN LES BOULOGNE","n1":{"division":"NM3","poule":"F","rang":12,"nb":14,"v":8,"d":18,"ecart":-231,"mouvement":"descendu","note":""}},"200000005339771":{"poule":"C","court":"Amicale Drapeau Le Portel","nom_ffbb":"AMICALE DRAPEAU LE PORTEL - 1","n1":{"division":"PNM","poule":"A","rang":2,"nb":12,"v":17,"d":5,"ecart":157,"mouvement":"maintenu","note":""}},"200000005339768":{"poule":"C","court":"Amiens SCBB","nom_ffbb":"AMIENS SPORTING CLUB BASKET BALL - 1","n1":{"division":"PNM","poule":"A","rang":4,"nb":12,"v":16,"d":6,"ecart":167,"mouvement":"maintenu","note":""}},"200000005339759":{"poule":"A","court":"BC Liévin 2","nom_ffbb":"BASKET CLUB LIEVINOIS - 2","n1":{"division":"PNM","poule":"B","rang":5,"nb":12,"v":12,"d":10,"ecart":-58,"mouvement":"maintenu","note":""}}},"meta":{"saison":"2026-2027","competition":"Pré-Nationale Masculine Hauts-de-France","maj_le":"2026-10-12T17:30:00+02:00","derniere_journee":3,"source":"FFBB competitions.ffbb.com","source_url":"https://competitions.ffbb.com/ligues/hdf/competitions/pnm/classement?phase=200000002897554&poule=200000003055243","historique":"Phase régulière 2025-26 (Score'n'co)"},"pronos":{"calcule_le":"2026-10-13T15:45:00+02:00","apres_journee":3,"matchs_joues":36,"hypotheses":{"off_nm3":8.0,"off_rm2":-10.0,"w":0.6,"tau":6.0,"sigma":12.0,"home":3.0,"nsim":20000,"montees":3,"format":"2 premiers de chaque poule -> poule d'accession à 8 (aller-retour), 3 premiers montent"},"equipes":[{"id":"200000005339757","note":10.0,"sd":4.7,"prior":4.7,"p1":79.2,"p2":95.3,"pm":61.5},{"id":"200000005339776","note":7.9,"sd":4.7,"prior":1.1,"p1":58.2,"p2":95.5,"pm":47.4},{"id":"200000005339771","note":7.1,"sd":4.7,"prior":3.6,"p1":63.1,"p2":84.4,"pm":40.3},{"id":"200000005339777","note":6.1,"sd":4.7,"prior":3.2,"p1":41.0,"p2":93.1,"pm":35.0},{"id":"200000005339762","note":5.1,"sd":4.7,"prior":4.2,"p1":54.7,"p2":77.3,"pm":27.2},{"id":"200000005339766","note":5.2,"sd":4.7,"prior":8.9,"p1":13.6,"p2":39.8,"pm":17.5},{"id":"200000005339756","note":3.0,"sd":4.7,"prior":1.0,"p1":17.3,"p2":68.0,"pm":16.3},{"id":"200000005339770","note":2.6,"sd":4.7,"prior":-1.2,"p1":21.0,"p2":55.1,"pm":13.0},{"id":"200000005339769","note":2.8,"sd":4.7,"prior":1.6,"p1":12.3,"p2":38.1,"pm":10.9},{"id":"200000005339761","note":1.9,"sd":4.7,"prior":-2.3,"p1":17.3,"p2":43.1,"pm":10.0},{"id":"200000005339768","note":1.9,"sd":4.7,"prior":3.9,"p1":3.5,"p2":20.6,"pm":6.0},{"id":"200000005339765","note":0.1,"sd":4.7,"prior":-2.9,"p1":10.2,"p2":24.5,"pm":4.6},{"id":"200000005339758","note":-0.2,"sd":4.7,"prior":-2.6,"p1":1.2,"p2":18.3,"pm":3.1},{"id":"200000005339763","note":-0.2,"sd":4.7,"prior":-0.9,"p1":4.0,"p2":13.9,"pm":3.1},{"id":"200000005339755","note":-1.2,"sd":4.7,"prior":1.5,"p1":2.3,"p2":16.3,"pm":2.6},{"id":"200000005339775","note":-3.8,"sd":4.7,"prior":-4.2,"p1":0.4,"p2":4.4,"pm":0.6},{"id":"200000005339764","note":-3.9,"sd":4.7,"prior":1.2,"p1":0.4,"p2":1.3,"pm":0.2},{"id":"200000005339767","note":-4.0,"sd":4.7,"prior":-4.2,"p1":0.1,"p2":1.8,"pm":0.2},{"id":"200000005339773","note":-5.1,"sd":4.7,"prior":-3.7,"p1":0.2,"p2":3.5,"pm":0.2},{"id":"200000005339774","note":-5.0,"sd":4.7,"prior":-2.7,"p1":0.2,"p2":3.0,"pm":0.2},{"id":"200000005339760","note":-5.6,"sd":4.7,"prior":-3.4,"p1":0.0,"p2":1.5,"pm":0.1},{"id":"200000005339778","note":-6.1,"sd":4.7,"prior":0.2,"p1":0.0,"p2":0.5,"pm":0.1},{"id":"200000005339759","note":-7.1,"sd":4.7,"prior":-2.3,"p1":0.0,"p2":0.6,"pm":0.0},{"id":"200000005339772","note":-11.5,"sd":4.7,"prior":-4.8,"p1":0.0,"p2":0.0,"pm":0.0}],"historique":[{"date":"2026-10-13","journee":3,"pm":{"57":61.5,"76":47.4,"71":40.3,"77":35.0,"62":27.2,"66":17.5,"56":16.3,"70":13.0,"69":10.9,"61":10.0,"68":6.0,"65":4.6,"58":3.1,"63":3.1,"55":2.6,"75":0.6,"64":0.2,"67":0.2,"73":0.2,"74":0.2,"60":0.1,"78":0.1,"59":0.0,"72":0.0}}]}};</script>
+<script>
+const S={equipes:{},poules:{},meta:null,pronos:null,raceAll:false,poule:"A",day:{},ready:{e:false,p:false}};
+const DIVS={PNM:"Pré-Nationale",NM3:"Nationale 3",RM2:"Régionale 2"};
+try{const h=location.hash.replace("#","");if(/^[ABCD]$/.test(h))S.poule=h;else{const s=localStorage.getItem("pnm-poule");if(s)S.poule=s;}}catch(e){}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sign=n=>n>0?"+"+n:String(n);
+const cls=n=>n>0?"pos":n<0?"neg":"";
+const fmtDate=(iso,withTime=true)=>{const d=new Date(iso);if(isNaN(d))return"";const o={weekday:"short",day:"numeric",month:"short"};if(withTime){o.hour="2-digit";o.minute="2-digit";}return d.toLocaleString("fr-FR",{...o,timeZone:"Europe/Paris"}).replace(",","");};
+const name=id=>S.equipes[id]?.court||id;
+
+document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",()=>{S.poule=b.dataset.p;try{localStorage.setItem("pnm-poule",S.poule)}catch(e){}render();}));
+
+function allMatchs(){return Object.values(S.poules).flatMap(p=>p.matchs||[]);}
+
+function renderBoard(){
+  const ms=allMatchs();
+  if(!ms.length)return;
+  const played=ms.filter(m=>m.joue);
+  const lastJ=played.reduce((a,m)=>Math.max(a,m.j),0);
+  const maxJ=ms.reduce((a,m)=>Math.max(a,m.j),0);
+  $("#kJ").textContent=lastJ+" / "+maxJ;
+  $("#kM").textContent=played.length+" / "+ms.length;
+  const next=ms.filter(m=>!m.joue).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  $("#kN").textContent=next?fmtDate(next.date,false):"Fin";
+  const maj=S.meta?.maj_le;
+  $("#stamp").textContent=maj?"Mis à jour le "+new Date(maj).toLocaleString("fr-FR",{dateStyle:"long",timeStyle:"short",timeZone:"Europe/Paris"}):"";
+  if(S.meta?.source_url)$("#src").href=S.meta.source_url;
+}
+
+function formOf(id,matchs){
+  return matchs.filter(m=>m.joue&&(m.eq1===id||m.eq2===id)).sort((a,b)=>a.date.localeCompare(b.date)).slice(-5)
+    .map(m=>{const me=m.eq1===id?m.s1:m.s2, op=m.eq1===id?m.s2:m.s1, v=me>op;
+      return `<i class="${v?"v":"d"}" title="${esc(fmtDate(m.date,false))} : ${me}-${op} contre ${esc(name(m.eq1===id?m.eq2:m.eq1))}">${v?"V":"D"}</i>`;}).join("");
+}
+
+function moveChip(m){
+  if(m==="promu")return '<span class="chip promu">▲ Promu</span>';
+  if(m==="descendu")return '<span class="chip descendu">▼ Descendu</span>';
+  return '<span class="chip">Maintenu</span>';
+}
+
+function pronoOf(id){return S.pronos?.equipes?.find(e=>e.id===id)||null;}
+const pct=v=>v==null?"–":(v>=99.5?">99":v<0.5?"<1":Math.round(v))+" %";
+
+function renderRace(){
+  const P=S.pronos, list=$("#raceList");
+  if(!P||!P.equipes?.length||!S.ready.e)return;
+  const when=new Date(P.calcule_le).toLocaleDateString("fr-FR",{day:"numeric",month:"long",timeZone:"Europe/Paris"});
+  $("#raceStamp").textContent="Après la journée "+P.apres_journee+" · calculé le "+when;
+  const hist=P.historique||[], prev=hist.length>1?hist[hist.length-2]:null;
+  const nPlaces=P.hypotheses?.montees||3;
+  const rows=(S.raceAll?P.equipes:P.equipes.slice(0,8)).map((e,i)=>{
+    const t=S.equipes[e.id]||{};
+    let trend="";
+    if(prev&&prev.pm[e.id.slice(-2)]!=null){const d=Math.round(e.pm-prev.pm[e.id.slice(-2)]);
+      if(d)trend=` · <span class="${d>0?"pos":"neg"}">${d>0?"▲ +":"▼ "}${d} pt${Math.abs(d)>1?"s":""} depuis J${prev.journee}</span>`;}
+    return `<li class="${i<nPlaces?"zone":""}"><span class="rk">${i+1}</span>
+      <div class="who"><div class="nm"><span>${esc(t.court||e.id)}</span><span class="pl">POULE ${esc(t.poule||"")}</span></div>
+      <div class="bar" role="img" aria-label="${pct(e.pm)} de chances de monter"><i style="width:${Math.max(0,Math.min(100,e.pm))}%"></i></div>
+      <div class="det"><span class="plm">Poule ${esc(t.poule||"")} · </span>1er de poule ${pct(e.p1)} · dans les 2 premiers ${pct(e.p2)}${trend}</div></div>
+      <div class="pm">${pct(e.pm)}<small>de monter</small></div></li>`;}).join("");
+  list.innerHTML=rows;
+  const more=$("#raceMore"); more.textContent=S.raceAll?"Voir les 8 premiers":"Voir les "+P.equipes.length+" équipes"; more.setAttribute("aria-expanded",String(S.raceAll));
+}
+$("#raceMore").addEventListener("click",()=>{S.raceAll=!S.raceAll;renderRace();});
+
+function table(p){
+  const P=S.poules[p]; if(!P)return "";
+  const rows=[...(P.classement||[])].sort((a,b)=>a.pos-b.pos).map(c=>{
+    const e=S.equipes[c.id]||{}, h=e.n1, diff=c.pm-c.pe;
+    const last=h?`<td class="sep div">${esc(DIVS[h.division]||h.division)} <em>· poule ${esc(h.poule)}</em></td>
+      <td class="num">${h.rang}<span style="color:var(--muted)">/${h.nb}</span></td>
+      <td class="num">${h.v}-${h.d}</td>
+      <td class="num ${cls(h.ecart)}">${sign(h.ecart)}</td>
+      <td>${moveChip(h.mouvement)}</td>
+      <td class="note">${esc(h.note||"")}</td>`
+      :`<td class="sep note" colspan="6">Pas d'historique enregistré</td>`;
+    return `<tr><td class="rank">${c.pos}</td><td class="team" title="${esc(e.nom_ffbb||"")}">${esc(e.court||c.id)}</td>
+      <td class="num pts">${c.pts}</td><td class="num">${c.j}</td><td class="num">${c.v}-${c.d}</td>
+      <td class="num">${c.pm}-${c.pe}</td><td class="num ${cls(diff)}">${sign(diff)}</td>
+      <td><span class="form">${formOf(c.id,P.matchs||[])}</span></td>
+      <td class="num prob" title="Probabilité de monter en NM3 (simulation)">${pct(pronoOf(c.id)?.pm)}</td>${last}</tr>`;
+  }).join("");
+  return `<div class="tablebox"><table>
+    <thead><tr class="groups"><th colspan="9">Classement actuel</th><th colspan="6" class="sep">Saison 2025-26</th></tr>
+    <tr><th>#</th><th>Équipe</th><th class="num">Pts</th><th class="num">J</th><th class="num">V-D</th><th class="num">Pour-Contre</th><th class="num">Diff</th><th>Forme</th><th class="num">Montée</th>
+    <th class="sep">Division</th><th class="num">Rang</th><th class="num">Bilan</th><th class="num">Écart</th><th>Ce qui s'est passé</th><th>Note</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+function results(p){
+  const P=S.poules[p]; if(!P||!P.matchs?.length)return "";
+  const days=[...new Set(P.matchs.map(m=>m.j))].sort((a,b)=>a-b);
+  const lastPlayed=Math.max(0,...P.matchs.filter(m=>m.joue).map(m=>m.j));
+  const sel=S.day[p]??(lastPlayed||days[0]);
+  const btns=days.map(d=>{const pl=P.matchs.filter(m=>m.j===d).every(m=>m.joue);
+    return `<button type="button" data-p="${p}" data-j="${d}" class="${pl?"played":""}" aria-pressed="${d===sel}">J${d}</button>`;}).join("");
+  const games=P.matchs.filter(m=>m.j===sel).sort((a,b)=>a.date.localeCompare(b.date)).map(m=>{
+    const w1=m.joue&&m.s1>m.s2, w2=m.joue&&m.s2>m.s1;
+    return `<div class="game"><div class="when"><span>${esc(fmtDate(m.date))}</span><span>${m.joue?"Terminé":"À venir"}</span></div>
+      <div class="side ${m.joue?(w1?"win":"lose"):""}"><span>${esc(name(m.eq1))}</span><b>${m.joue?m.s1:""}</b></div>
+      <div class="side ${m.joue?(w2?"win":"lose"):""}"><span>${esc(name(m.eq2))}</span><b>${m.joue?m.s2:""}</b></div></div>`;}).join("");
+  return `<div class="days" role="group" aria-label="Journées poule ${p}">${btns}</div><div class="games">${games}</div>`;
+}
+
+function render(){
+  document.querySelectorAll("#seg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.p===S.poule)));
+  renderBoard();
+  renderRace();
+  const box=$("#content");
+  if(!S.ready.e||!S.ready.p){return;}
+  const list=S.poule==="*"?["A","B","C","D"]:[S.poule];
+  if(!Object.keys(S.poules).length){box.innerHTML='<div class="empty">La base est vide. Le classement, les matchs et l\'historique 2025-26 apparaîtront ici après la prochaine mise à jour.</div>';return;}
+  box.innerHTML=list.map(p=>`<section><h2>Poule ${p}<small>${(S.poules[p]?.classement||[]).length} équipes</small></h2>${table(p)}
+    <h2 style="font-size:20px">Résultats</h2>${results(p)}</section>`).join("");
+  box.querySelectorAll(".days button").forEach(b=>b.addEventListener("click",()=>{S.day[b.dataset.p]=+b.dataset.j;render();}));
+}
+
+(async()=>{
+  if(window.__PNM_DATA){const d=window.__PNM_DATA;S.equipes=d.equipes||{};S.poules=d.poules||{};S.meta=d.meta||null;S.pronos=d.pronos||null;S.ready.e=S.ready.p=true;render();return;}
+  const db=window.claude?await window.claude.use("db"):null;
+  if(!db){$("#stamp").textContent="";$("#content").innerHTML='<div class="empty">La base de données n\'est pas accessible depuis cet affichage. Ouvrez la page depuis claude.ai en étant connecté.</div>';return;}
+  db.doc("pronostics/courant").onSnapshot(s=>{S.pronos=s.exists?s.data():null;render();},()=>{});
+  const fail=e=>{$("#stamp").textContent="Lecture de la base interrompue ("+(e?.code||"erreur")+"). Rechargez la page.";};
+  db.collection("equipes").onSnapshot(s=>{const o={};s.docs.forEach(d=>o[d.id]=d.data());S.equipes=o;S.ready.e=true;render();},fail);
+  db.collection("poules").onSnapshot(s=>{const o={};s.docs.forEach(d=>o[d.id]=d.data());S.poules=o;S.ready.p=true;render();},fail);
+  db.doc("meta/etat").onSnapshot(s=>{S.meta=s.exists?s.data():null;render();},fail);
+})();
+render();
+</script>
+</body></html>
