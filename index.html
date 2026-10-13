@@ -152,7 +152,7 @@ header.band .wrap.tabsrow{padding-block:0;display:block}
   </section>
   </div>
   <footer>
-    <div>Classement : 2 pts la victoire, 1 pt la défaite (barème FFBB). Forme = 5 derniers matchs, le plus récent à droite.</div>
+    <div>Classement : 2 pts la victoire, 1 pt la défaite (barème FFBB). Forme = 5 derniers matchs, le plus récent à gauche.</div>
     <div>2025-26 : classement de phase régulière (source Score'n'co). Saison en cours : <a id="src" href="https://competitions.ffbb.com/ligues/hdf/competitions/pnm/classement?phase=200000002897554&amp;poule=200000003055243" target="_blank" rel="noopener">FFBB</a>, mise à jour chaque dimanche matin s'il y a eu un match la veille.</div>
   </footer>
 </main>
@@ -207,7 +207,7 @@ function renderBoard(){
 }
 
 function formOf(id,matchs){
-  return matchs.filter(m=>m.joue&&(m.eq1===id||m.eq2===id)).sort((a,b)=>a.date.localeCompare(b.date)).slice(-5)
+  return matchs.filter(m=>m.joue&&(m.eq1===id||m.eq2===id)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
     .map(m=>{const me=m.eq1===id?m.s1:m.s2, op=m.eq1===id?m.s2:m.s1, v=me>op;
       return `<i class="${v?"v":"d"}" title="${esc(fmtDate(m.date,false))} : ${me}-${op} contre ${esc(name(m.eq1===id?m.eq2:m.eq1))}">${v?"V":"D"}</i>`;}).join("");
 }
