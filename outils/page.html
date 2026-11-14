@@ -1,0 +1,308 @@
+<title>PNM Hauts-de-France</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: scoreboard band on top, poule switch, one wide standings table (this season + last season), then the round-by-round results. */
+:root{
+  --bg:#eef2f5; --surface:#ffffff; --ink:#15212c; --muted:#5b6977; --line:#d6dee5; --band:#1b3149; --band-ink:#f3f6f9;
+  --accent:#d9591a; --accent-soft:#fbe7dc; --up:#1d8549; --up-soft:#dcf1e4; --down:#bf3a2e; --down-soft:#f7e0dd;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --surface:#16202a; --ink:#e5ecf2; --muted:#94a4b3; --line:#283645; --band:#0b1c2e; --band-ink:#e5ecf2;
+  --accent:#f0813f; --accent-soft:#3a2416; --up:#52c483; --up-soft:#15301f; --down:#ee6e62; --down-soft:#3a1c19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --surface:#16202a; --ink:#e5ecf2; --muted:#94a4b3; --line:#283645; --band:#0b1c2e; --band-ink:#e5ecf2;
+  --accent:#f0813f; --accent-soft:#3a2416; --up:#52c483; --up-soft:#15301f; --down:#ee6e62; --down-soft:#3a1c19; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+header.band{background:var(--band);color:var(--band-ink)}
+header.band .wrap{padding-block:22px 18px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1;margin:.2em 0 0;letter-spacing:.01em;text-wrap:balance}
+.board{display:flex;gap:22px;font-family:var(--f-display)}
+.board div{display:grid;gap:2px}
+.board b{font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
+.board span{font-family:var(--f-body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;padding-block:18px 10px}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{font:600 15px var(--f-body);border:0;background:transparent;color:var(--ink);padding:7px 15px;border-radius:999px;cursor:pointer;min-width:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:focus-visible,.days button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stamp{color:var(--muted);font-size:13px}
+h2{font-family:var(--f-display);font-weight:700;font-size:26px;margin:22px 0 8px;letter-spacing:.01em}
+h2 small{font-family:var(--f-body);font-weight:500;font-size:14px;color:var(--muted);margin-left:8px;letter-spacing:0}
+.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:920px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+thead th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+thead tr.groups th{font-family:var(--f-display);font-size:15px;letter-spacing:.04em;color:var(--ink);border-bottom:0;padding-bottom:0}
+th.num,td.num{text-align:right}
+.sep{border-left:2px solid var(--line)}
+td.rank{font-family:var(--f-display);font-weight:700;font-size:20px;width:34px;text-align:center}
+td.team{font-weight:600;position:sticky;left:0;background:var(--surface);max-width:250px;overflow:hidden;text-overflow:ellipsis}
+td.pts{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent)}
+.pos{color:var(--up)} .neg{color:var(--down)}
+.form{display:inline-flex;gap:3px}
+.form i{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:4px;font:700 11px var(--f-body);font-style:normal}
+.form i.v{background:var(--up-soft);color:var(--up)} .form i.d{background:var(--down-soft);color:var(--down)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.chip.promu{background:var(--up-soft);color:var(--up)} .chip.descendu{background:var(--down-soft);color:var(--down)}
+.div{font-weight:600} .div em{font-style:normal;color:var(--muted);font-weight:500}
+.note{color:var(--muted);font-size:12.5px;white-space:normal;min-width:180px;max-width:260px}
+.legend{color:var(--muted);font-size:12.5px;margin:8px 2px 0}
+.days{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.days button{font:600 14px var(--f-display);letter-spacing:.03em;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:5px 10px;cursor:pointer;min-width:42px}
+.days button.played{border-color:var(--muted)}
+.days button[aria-pressed="true"]{background:var(--band);color:var(--band-ink);border-color:var(--band)}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.game{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:grid;gap:6px;min-width:0}
+.game .when{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.side{display:flex;justify-content:space-between;align-items:center;gap:10px;min-width:0}
+.side span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side b{font-family:var(--f-display);font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.side.win span{font-weight:600} .side.lose{color:var(--muted)}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:28px 20px;color:var(--muted);text-align:center}
+footer{margin-top:28px;color:var(--muted);font-size:12.5px;display:grid;gap:4px}
+footer a{color:inherit}
+.race{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;margin-top:6px;display:grid;gap:10px}
+.race-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.race-head h2{margin:0}
+.race-sub{margin:0;color:var(--muted);font-size:13.5px;max-width:70ch}
+.race-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.race-list li{display:grid;grid-template-columns:30px minmax(0,1fr) 74px;gap:4px 12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.race-list li:first-child{border-top:0}
+.race-list .rk{font-family:var(--f-display);font-weight:700;font-size:20px;text-align:center;color:var(--muted)}
+.race-list li.zone .rk{color:var(--accent)}
+.race-list .who{min-width:0;display:grid;gap:5px}
+.race-list .nm{font-weight:600;display:flex;gap:8px;align-items:center;min-width:0}
+.race-list .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.race-list .pl{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;flex:none}
+.bar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.race-list li:not(.zone) .bar i{background:var(--muted);opacity:.55}
+.race-list .det{font-size:12.5px;color:var(--muted)}
+.race-list .pm{text-align:right;font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
+.race-list .pm small{display:block;font-family:var(--f-body);font-weight:600;font-size:11.5px;margin-top:3px}
+.race-foot{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.linkbtn{font:600 13.5px var(--f-body);background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0}
+.linkbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.how{font-size:13px;color:var(--muted)}
+details.how summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details.how p{margin:6px 0 0;max-width:75ch}
+td.prob{font-family:var(--f-display);font-weight:700;font-size:17px}
+@media (prefers-reduced-motion:no-preference){.seg button,.days button{transition:background .15s,color .15s}}
+header.band .wrap.tabsrow{padding-block:0;display:block}
+.tabs{display:flex;gap:2px;overflow-x:auto}
+.tabs button{font:600 15px var(--f-body);color:var(--band-ink);opacity:.7;background:none;border:0;border-bottom:3px solid transparent;padding:11px 14px 10px;cursor:pointer;white-space:nowrap}
+.tabs button:hover{opacity:.95}
+.tabs button[aria-selected="true"]{opacity:1;border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+#viewMontee .race{margin-top:22px}
+.race-list li.cut{display:block;padding:6px 0 4px;border-top:2px dashed var(--accent);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.plm{display:none}
+@media (max-width:520px){.board{gap:16px}.board b{font-size:24px}
+  .race{padding:14px 12px}.race-list li{grid-template-columns:22px minmax(0,1fr) 60px;gap:4px 8px}
+  .race-list .pl{display:none}.plm{display:inline}.race-list .pm{font-size:21px}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Ligue Hauts-de-France · Saison 2026-2027</div>
+      <h1>Pré-Nationale Masculine</h1>
+    </div>
+    <div class="board" aria-live="polite">
+      <div><b id="kJ">–</b><span>Journée</span></div>
+      <div><b id="kM">–</b><span>Matchs joués</span></div>
+      <div><b id="kN">–</b><span>Prochaine</span></div>
+    </div>
+  </div>
+  <div class="wrap tabsrow">
+    <nav class="tabs" role="tablist" aria-label="Affichage">
+      <button type="button" role="tab" id="tab-poules" data-v="poules" aria-controls="viewPoules" aria-selected="true">Classements</button>
+      <button type="button" role="tab" id="tab-montee" data-v="montee" aria-controls="viewMontee" aria-selected="false">Course à la montée</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="viewPoules" role="tabpanel" aria-labelledby="tab-poules">
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Choisir la poule" id="seg">
+      <button type="button" data-p="A" aria-pressed="false">A</button>
+      <button type="button" data-p="B" aria-pressed="false">B</button>
+      <button type="button" data-p="C" aria-pressed="false">C</button>
+      <button type="button" data-p="D" aria-pressed="false">D</button>
+      <button type="button" data-p="*" aria-pressed="false">Toutes</button>
+    </div>
+    <div class="stamp" id="stamp">Chargement de la base…</div>
+  </div>
+  <div id="content">
+    <div class="empty">Chargement du classement et de l'historique 2025-26…</div>
+  </div>
+  </div>
+  <div id="viewMontee" role="tabpanel" aria-labelledby="tab-montee" hidden>
+  <section class="race" id="race" aria-labelledby="raceTitle">
+    <div class="race-head"><h2 id="raceTitle">Course à la montée</h2><span class="stamp" id="raceStamp"></span></div>
+    <p class="race-sub">Probabilité de monter en Nationale 3, estimée en simulant 20 000 fins de saison à partir des résultats et de la saison 2025-26.</p>
+    <ol class="race-list" id="raceList"><li><span></span><span class="det">Le calcul apparaîtra ici après le chargement de la base.</span><span></span></li></ol>
+  </section>
+  </div>
+  <footer>
+    <div>Classement : 2 pts la victoire, 1 pt la défaite (barème FFBB). Forme = 5 derniers matchs, le plus récent à gauche.</div>
+    <div>2025-26 : classement de phase régulière (source Score'n'co). Saison en cours : <a id="src" href="https://competitions.ffbb.com/ligues/hdf/competitions/pnm/classement?phase=200000002897554&amp;poule=200000003055243" target="_blank" rel="noopener">FFBB</a>, mise à jour chaque dimanche matin s'il y a eu un match la veille.</div>
+  </footer>
+</main>
+<!--PNM_DATA-->
+<script>
+const S={equipes:{},poules:{},meta:null,pronos:null,view:"poules",poule:"A",day:{},ready:{e:false,p:false}};
+const DIVS={PNM:"Pré-Nationale",NM3:"Nationale 3",RM2:"Régionale 2"};
+try{const h=location.hash.replace("#","");
+  if(h==="montee")S.view="montee";
+  else if(/^[ABCD]$/.test(h))S.poule=h;
+  else{const s=localStorage.getItem("pnm-poule");if(s)S.poule=s;const v=localStorage.getItem("pnm-vue");if(v==="montee")S.view=v;}}catch(e){}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sign=n=>n>0?"+"+n:String(n);
+const cls=n=>n>0?"pos":n<0?"neg":"";
+const fmtDate=(iso,withTime=true)=>{const d=new Date(iso);if(isNaN(d))return"";const o={weekday:"short",day:"numeric",month:"short"};if(withTime){o.hour="2-digit";o.minute="2-digit";}return d.toLocaleString("fr-FR",{...o,timeZone:"Europe/Paris"}).replace(",","");};
+const name=id=>S.equipes[id]?.court||id;
+
+document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",()=>{S.poule=b.dataset.p;try{localStorage.setItem("pnm-poule",S.poule)}catch(e){}render();}));
+function applyView(){
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.v===S.view)));
+  $("#viewPoules").hidden=S.view!=="poules"; $("#viewMontee").hidden=S.view!=="montee";
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  S.view=b.dataset.v; try{localStorage.setItem("pnm-vue",S.view)}catch(e){}
+  try{history.replaceState(null,"",S.view==="montee"?"#montee":location.pathname+location.search)}catch(e){}
+  applyView(); window.scrollTo({top:0});
+}));
+document.querySelector(".tabs").addEventListener("keydown",e=>{
+  if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+  const bs=[...document.querySelectorAll(".tabs button")],i=bs.findIndex(b=>b.dataset.v===S.view);
+  const n=bs[(i+(e.key==="ArrowRight"?1:bs.length-1))%bs.length]; n.click(); n.focus();
+});
+applyView();
+
+function allMatchs(){return Object.values(S.poules).flatMap(p=>p.matchs||[]);}
+
+function renderBoard(){
+  const ms=allMatchs();
+  if(!ms.length)return;
+  const played=ms.filter(m=>m.joue);
+  const lastJ=played.reduce((a,m)=>Math.max(a,m.j),0);
+  const maxJ=ms.reduce((a,m)=>Math.max(a,m.j),0);
+  $("#kJ").textContent=lastJ+" / "+maxJ;
+  $("#kM").textContent=played.length+" / "+ms.length;
+  const next=ms.filter(m=>!m.joue).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  $("#kN").textContent=next?fmtDate(next.date,false):"Fin";
+  const maj=S.meta?.maj_le;
+  $("#stamp").textContent=maj?"Mis à jour le "+new Date(maj).toLocaleString("fr-FR",{dateStyle:"long",timeStyle:"short",timeZone:"Europe/Paris"}):"";
+  if(S.meta?.source_url)$("#src").href=S.meta.source_url;
+}
+
+function formOf(id,matchs){
+  return matchs.filter(m=>m.joue&&(m.eq1===id||m.eq2===id)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
+    .map(m=>{const me=m.eq1===id?m.s1:m.s2, op=m.eq1===id?m.s2:m.s1, v=me>op;
+      return `<i class="${v?"v":"d"}" title="${esc(fmtDate(m.date,false))} : ${me}-${op} contre ${esc(name(m.eq1===id?m.eq2:m.eq1))}">${v?"V":"D"}</i>`;}).join("");
+}
+
+function moveChip(m){
+  if(m==="promu")return '<span class="chip promu">▲ Promu</span>';
+  if(m==="descendu")return '<span class="chip descendu">▼ Descendu</span>';
+  return '<span class="chip">Maintenu</span>';
+}
+
+function pronoOf(id){return S.pronos?.equipes?.find(e=>e.id===id)||null;}
+const pct=v=>v==null?"–":(v>=99.5?">99":v<0.5?"<1":Math.round(v))+" %";
+
+function renderRace(){
+  const P=S.pronos, list=$("#raceList");
+  if(!P||!P.equipes?.length||!S.ready.e)return;
+  const when=new Date(P.calcule_le).toLocaleDateString("fr-FR",{day:"numeric",month:"long",timeZone:"Europe/Paris"});
+  $("#raceStamp").textContent="Après la journée "+P.apres_journee+" · calculé le "+when;
+  const hist=P.historique||[], prev=hist.length>1?hist[hist.length-2]:null;
+  const nPlaces=P.hypotheses?.montees||3;
+  const rows=P.equipes.map((e,i)=>{
+    const t=S.equipes[e.id]||{};
+    let trend="";
+    if(prev&&prev.pm[e.id.slice(-2)]!=null){const d=Math.round(e.pm-prev.pm[e.id.slice(-2)]);
+      if(d)trend=` · <span class="${d>0?"pos":"neg"}">${d>0?"▲ +":"▼ "}${d} pt${Math.abs(d)>1?"s":""} depuis J${prev.journee}</span>`;}
+    return `<li class="${i<nPlaces?"zone":""}"><span class="rk">${i+1}</span>
+      <div class="who"><div class="nm"><span>${esc(t.court||e.id)}</span><span class="pl">POULE ${esc(t.poule||"")}</span></div>
+      <div class="bar" role="img" aria-label="${pct(e.pm)} de chances de monter"><i style="width:${Math.max(0,Math.min(100,e.pm))}%"></i></div>
+      <div class="det"><span class="plm">Poule ${esc(t.poule||"")} · </span>1er de poule ${pct(e.p1)} · dans les 2 premiers ${pct(e.p2)}${trend}</div></div>
+      <div class="pm">${pct(e.pm)}<small>de monter</small></div></li>`+
+      (i===nPlaces-1?`<li class="cut" aria-hidden="true">▲ Zone de montée : ${nPlaces} places</li>`:"");}).join("");
+  list.innerHTML=rows;
+}
+
+function table(p){
+  const P=S.poules[p]; if(!P)return "";
+  const rows=[...(P.classement||[])].sort((a,b)=>a.pos-b.pos).map(c=>{
+    const e=S.equipes[c.id]||{}, h=e.n1, diff=c.pm-c.pe;
+    const last=h?`<td class="sep div">${esc(DIVS[h.division]||h.division)} <em>· poule ${esc(h.poule)}</em></td>
+      <td class="num">${h.rang}<span style="color:var(--muted)">/${h.nb}</span></td>
+      <td class="num">${h.v}-${h.d}</td>
+      <td class="num ${cls(h.ecart)}">${sign(h.ecart)}</td>
+      <td>${moveChip(h.mouvement)}</td>
+      <td class="note">${esc(h.note||"")}</td>`
+      :`<td class="sep note" colspan="6">Pas d'historique enregistré</td>`;
+    return `<tr><td class="rank">${c.pos}</td><td class="team" title="${esc(e.nom_ffbb||"")}">${esc(e.court||c.id)}</td>
+      <td class="num pts">${c.pts}</td><td class="num">${c.j}</td><td class="num">${c.v}-${c.d}</td>
+      <td class="num">${c.pm}-${c.pe}</td><td class="num ${cls(diff)}">${sign(diff)}</td>
+      <td><span class="form">${formOf(c.id,P.matchs||[])}</span></td>
+      <td class="num prob" title="Probabilité de monter en NM3 (simulation)">${pct(pronoOf(c.id)?.pm)}</td>${last}</tr>`;
+  }).join("");
+  return `<div class="tablebox"><table>
+    <thead><tr class="groups"><th colspan="9">Classement actuel</th><th colspan="6" class="sep">Saison 2025-26</th></tr>
+    <tr><th>#</th><th>Équipe</th><th class="num">Pts</th><th class="num">J</th><th class="num">V-D</th><th class="num">Pour-Contre</th><th class="num">Diff</th><th>Forme</th><th class="num">Montée</th>
+    <th class="sep">Division</th><th class="num">Rang</th><th class="num">Bilan</th><th class="num">Écart</th><th>Ce qui s'est passé</th><th>Note</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+function results(p){
+  const P=S.poules[p]; if(!P||!P.matchs?.length)return "";
+  const days=[...new Set(P.matchs.map(m=>m.j))].sort((a,b)=>a-b);
+  const lastPlayed=Math.max(0,...P.matchs.filter(m=>m.joue).map(m=>m.j));
+  const sel=S.day[p]??(lastPlayed||days[0]);
+  const btns=days.map(d=>{const pl=P.matchs.filter(m=>m.j===d).every(m=>m.joue);
+    return `<button type="button" data-p="${p}" data-j="${d}" class="${pl?"played":""}" aria-pressed="${d===sel}">J${d}</button>`;}).join("");
+  const games=P.matchs.filter(m=>m.j===sel).sort((a,b)=>a.date.localeCompare(b.date)).map(m=>{
+    const w1=m.joue&&m.s1>m.s2, w2=m.joue&&m.s2>m.s1;
+    return `<div class="game"><div class="when"><span>${esc(fmtDate(m.date))}</span><span>${m.joue?"Terminé":"À venir"}</span></div>
+      <div class="side ${m.joue?(w1?"win":"lose"):""}"><span>${esc(name(m.eq1))}</span><b>${m.joue?m.s1:""}</b></div>
+      <div class="side ${m.joue?(w2?"win":"lose"):""}"><span>${esc(name(m.eq2))}</span><b>${m.joue?m.s2:""}</b></div></div>`;}).join("");
+  return `<div class="days" role="group" aria-label="Journées poule ${p}">${btns}</div><div class="games">${games}</div>`;
+}
+
+function render(){
+  document.querySelectorAll("#seg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.p===S.poule)));
+  renderBoard();
+  renderRace();
+  const box=$("#content");
+  if(!S.ready.e||!S.ready.p){return;}
+  const list=S.poule==="*"?["A","B","C","D"]:[S.poule];
+  if(!Object.keys(S.poules).length){box.innerHTML='<div class="empty">La base est vide. Le classement, les matchs et l\'historique 2025-26 apparaîtront ici après la prochaine mise à jour.</div>';return;}
+  box.innerHTML=list.map(p=>`<section><h2>Poule ${p}<small>${(S.poules[p]?.classement||[]).length} équipes</small></h2>${table(p)}
+    <h2 style="font-size:20px">Résultats</h2>${results(p)}</section>`).join("");
+  box.querySelectorAll(".days button").forEach(b=>b.addEventListener("click",()=>{S.day[b.dataset.p]=+b.dataset.j;render();}));
+}
+
+(async()=>{
+  if(window.__PNM_DATA){const d=window.__PNM_DATA;S.equipes=d.equipes||{};S.poules=d.poules||{};S.meta=d.meta||null;S.pronos=d.pronos||null;S.ready.e=S.ready.p=true;render();return;}
+  const db=window.claude?await window.claude.use("db"):null;
+  if(!db){$("#stamp").textContent="";$("#content").innerHTML='<div class="empty">La base de données n\'est pas accessible depuis cet affichage. Ouvrez la page depuis claude.ai en étant connecté.</div>';return;}
+  db.doc("pronostics/courant").onSnapshot(s=>{S.pronos=s.exists?s.data():null;render();},()=>{});
+  const fail=e=>{$("#stamp").textContent="Lecture de la base interrompue ("+(e?.code||"erreur")+"). Rechargez la page.";};
+  db.collection("equipes").onSnapshot(s=>{const o={};s.docs.forEach(d=>o[d.id]=d.data());S.equipes=o;S.ready.e=true;render();},fail);
+  db.collection("poules").onSnapshot(s=>{const o={};s.docs.forEach(d=>o[d.id]=d.data());S.poules=o;S.ready.p=true;render();},fail);
+  db.doc("meta/etat").onSnapshot(s=>{S.meta=s.exists?s.data():null;render();},fail);
+})();
+render();
+</script>
