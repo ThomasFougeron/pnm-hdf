@@ -37,6 +37,12 @@ def main(teams, matchs, now, veille):
     run(os.path.join(O, "build_static.py"), os.path.join(O, "page.html"), os.path.join(D, "poules"),
         os.path.join(D, "equipes"), os.path.join(D, "meta.json"), os.path.join(D, "pronos.json"),
         os.path.join(ROOT, "index.html"))
+    # version pour la page Claude : même page, données intégrées, sans enveloppe <html> (ajoutée à la publication)
+    page = open(os.path.join(O, "page.html"), encoding="utf-8").read()
+    full = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    data = full[full.index("<script>window.__PNM_DATA="):]
+    data = data[:data.index("</script>") + len("</script>")]
+    open(os.path.join(ROOT, "artefact.html"), "w", encoding="utf-8").write(page.replace("<!--PNM_DATA-->", data))
     res["ecrit"] = True
     print(json.dumps(res, ensure_ascii=False, indent=1))
 
